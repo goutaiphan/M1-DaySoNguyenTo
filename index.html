@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8">
+    <title>Dãy số nguyên tố</title>
+    <link href="style.css" rel="stylesheet">
+    <link href="baseStyle.css" rel="stylesheet">
+</head>
+<body>
+<p id="title">Dãy số nguyên tố</p>
+<div id="part0">
+    <div id="inputArea0">
+        <p>Số nguyên tố là tập hợp các số tự nhiên chỉ chia hết cho 1 và chính nó.</p>
+        <p>Hãy nhập một số tự nhiên, hệ thống sẽ kiểm tra xem đó có phải là số nguyên tố.</p>
+        <input id="inputBox0">
+    </div>
+
+    <button id="button0">Kiểm tra</button>
+
+    <div id="resultArea0">
+        <p id="result0"></p>
+        <p id="note0"></p>
+    </div>
+</div>
+
+<div id="part1">
+    <div id="inputArea1">
+        <p>Bạn mong muốn biết về dãy số nguyên tố với bao nhiêu chữ số?</p>
+        <input id="inputBox1">
+    </div>
+
+    <button id="button1">Thực hiện</button>
+
+    <div id="resultArea1">
+        <p id="inputDisplay1"></p>
+        <p id="result1"></p>
+        <p id="calculation"></p>
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+    let inputBox0 = document.getElementById('inputBox0'),
+        button0 = document.getElementById('button0'),
+        result0 = document.getElementById('result0'),
+        note0 = document.getElementById('note0');
+
+    button0.onclick = function () {
+        let modArray = getModArray(inputBox0.value);
+        if (inputBox0.value <= 1) {
+            result0.innerHTML = 'Đây không được xem là số nguyên tố.'
+        } else if (inputBox0.value > 1 && modArray.length === 2) {
+            result0.innerHTML = 'Đây chính là số nguyên tố,';
+            note0.innerHTML = 'vì số này chỉ có thể chia hết cho 1 và chính nó.'
+        } else {
+            result0.innerHTML = 'Đây không phải là số nguyên tố,';
+            note0.innerHTML = 'vì số này có thể chia hết cho tất thảy' + String(modArray) + '.';
+        }
+    }
+
+    let inputBox1 = document.getElementById('inputBox1'),
+        button1 = document.getElementById('button1'),
+        inputDisplay1 = document.getElementById('inputDisplay1'),
+        result1 = document.getElementById('result1'),
+        calculation = document.getElementById('calculation');
+
+    button1.onclick = function () {
+        let primeArray = [],
+            i = 2;
+        while (primeArray.length < inputBox1.value) {
+            let modArray = getModArray(i);
+            if (modArray.length === 2) {
+                primeArray.push(' ' + i);
+            }
+            i++;
+        }
+        if (parseInt(inputBox1.value) > 1) {
+            inputDisplay1.innerHTML = 'Dãy ' + inputBox1.value + ' số nguyên tố đầu tiên.'
+            result1.innerHTML = String(primeArray).substring(1) + '.';
+        } else if (parseInt(inputBox1.value) === 1) {
+            inputDisplay1.innerHTML = 'Số nguyên tố đầu tiên';
+            result1.innerHTML = String(primeArray).substring(1) + '.';
+        }
+
+        calculation.innerHTML = '';
+        let array = [['Tổng', '+'],
+            ['Hiệu', '-'],
+            ['Tích', '*'],
+            ['Thương', '/']];
+        for (let i = 0; i < array.length; i++) {
+            calculation.innerHTML = calculation.innerHTML + array[i][0] + ' của dãy số này là '
+                + eval(primeArray.join(array[i][1])) + '.<br>';
+        }
+    }
+
+    function getModArray(number) {
+        let modArray = [];
+        for (let i = 1; i <= number; i++) {
+            if (number % i === 0) {
+                modArray.push(' ' + i);
+            }
+        }
+        return modArray;
+    }
+</script>
